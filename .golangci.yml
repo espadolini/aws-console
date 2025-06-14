@@ -1,13 +1,17 @@
+version: "2"
+
 linters:
+  enable:
+    - gosec
+
+formatters:
   enable:
     - gci
     - gofumpt
-    - gosec
 
-linters-settings:
-  gci:
-    custom-order: true
-    sections:
-      - standard
-      - default
-      - localmodule
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - localmodule
