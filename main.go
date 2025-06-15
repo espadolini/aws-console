@@ -54,18 +54,18 @@ func run(ctx context.Context) error {
 		return fmt.Errorf("retrieving credentials: %w", err)
 	}
 
-	getSigninTokenURL := buildGetSigninTokenURL(creds, sessionDuration)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, getSigninTokenURL.String(), http.NoBody)
-	if err != nil {
-		panic(err)
-	}
-
 	hc := &http.Client{
 		CheckRedirect: func(*http.Request, []*http.Request) error {
 			return http.ErrUseLastResponse
 		},
 	}
-	resp, err := hc.Do(req)
+	defer hc.CloseIdleConnections()
+
+	req := &http.Request{
+		Method: http.MethodPost,
+		URL:    buildGetSigninTokenURL(creds, sessionDuration),
+	}
+	resp, err := hc.Do(req.WithContext(ctx))
 	if err != nil {
 		return fmt.Errorf("getSigninToken: %w", err)
 	}
