@@ -93,6 +93,7 @@ func run(ctx context.Context) error {
 	case "darwin":
 		//#nosec G204 -- there's no possible command injection here
 		err = syscall.Exec("/usr/bin/open", []string{"/usr/bin/open", "-u", loginURL.String()}, os.Environ())
+		fmt.Println(loginURL.String())
 		return fmt.Errorf("opening browser: %w", err)
 	case "linux":
 		xdgOpen, err := exec.LookPath("xdg-open")
