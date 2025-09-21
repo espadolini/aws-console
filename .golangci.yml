@@ -3,6 +3,11 @@ version: "2"
 linters:
   enable:
     - gosec
+  exclusions:
+    warn-unused: true
+    presets:
+      - common-false-positives
+      - std-error-handling
 
 formatters:
   enable:
